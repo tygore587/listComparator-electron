@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Hello World!</title>
+  <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+</head>
+
+<body>
+  <h1>Hello World!</h1>
+  <input type="button" id="btn-read" value="read file" />
+</body>
+
+<script>
+  const ipcRenderer = require('electron').ipcRenderer;
+
+  document.getElementById('btn-read').addEventListener('click', function () {
+    // include the ipc module to communicate with main process.
+
+    var arg = "secondparam";
+    console.log("triggered")
+    //send the info to main process . we can pass any arguments as second param.
+    ipcRenderer.send("btnclick", arg); // ipcRender.send will pass the information to main process
+  }, false);
+
+</script>
+
+<script>  
+ 
+//ipcRenderer.on will receive the “btnclick-task-finished'” info from main process 
+ ipcRenderer.on('btnclick-task-finished', function(event,param) {
+   console.log("done");
+ });
+ 
+</script>
+</html>
